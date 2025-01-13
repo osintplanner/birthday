@@ -23,10 +23,12 @@
             height: 60%;
             background: black;
             color: white;
-            border: 2px solid white;
             padding: 20px;
             overflow-y: auto;
-            box-shadow: 0 0 10px white;
+        }
+        .highlight {
+            color: yellow;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -62,7 +64,7 @@
                 cmd.innerHTML += commands[index];
                 cmd.scrollTop = cmd.scrollHeight;
                 index++;
-                setTimeout(() => typeCommands(commands, callback), 800);
+                setTimeout(() => typeCommands(commands, callback), 200);
             } else {
                 index = 0;
                 callback();
@@ -79,6 +81,7 @@
             input.style.fontFamily = 'Courier New';
             input.style.fontSize = '16px';
             input.style.width = '100%';
+            input.style.outline = 'none';
             cmd.appendChild(input);
             input.focus();
 
@@ -87,7 +90,7 @@
                     const value = input.value.trim().toLowerCase();
                     input.remove();
                     if (value === 'y') {
-                        cmd.innerHTML += '\nA localização secreta é: https://goo.gl/maps/EXEMPLO\n';
+                        cmd.innerHTML += '\nA localização secreta é: <span class="highlight">https://goo.gl/maps/EXEMPLO</span>\n';
                     } else if (value === 'n') {
                         cmd.innerHTML += '\nReiniciando processo...\n';
                         index = 0;
