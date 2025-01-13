@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -26,6 +27,24 @@
             padding: 20px;
             overflow-y: auto;
         }
+        #buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            background: black;
+            color: white;
+            border: 2px solid white;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: white;
+            color: black;
+        }
         .highlight {
             color: yellow;
             font-weight: bold;
@@ -38,17 +57,25 @@
 </head>
 <body>
     <div id="cmd"></div>
+    <div id="buttons" style="display: none;">
+        <button id="yesButton">Sim</button>
+        <button id="noButton">Não</button>
+    </div>
 
     <script>
         const cmd = document.getElementById('cmd');
+        const buttons = document.getElementById('buttons');
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
 
         const fakeCommands = [
             'C:\\Users\\Public> initializing...\n',
-            'C:\\Users\\Public> downloading payload...\n',
-            'C:\\Users\\Public> payload executed...\n',
-            'C:\\System32> accessing secure files...\n',
-            'C:\\System32> uploading sensitive data...\n',
-            'C:\\Users\\Public> encryption complete...\n'
+            'C:\\Users\\Public> checking system integrity...\n',
+            'C:\\Users\\Public> establishing network connection...\n',
+            'C:\\System32> executing payload...\n',
+            'C:\\System32> accessing encrypted files...\n',
+            'C:\\System32> extracting sensitive data...\n',
+            'C:\\System32> encryption complete...\n'
         ];
 
         const finalMessage = [
@@ -59,8 +86,6 @@
             'Preparando coordenadas secretas...\n'
         ];
 
-        const promptMessage = 'Deseja saber a localização? (y/n)';
-
         let index = 0;
 
         function typeCommands(commands, callback) {
@@ -68,43 +93,33 @@
                 cmd.innerHTML += commands[index];
                 cmd.scrollTop = cmd.scrollHeight;
                 index++;
-                setTimeout(() => typeCommands(commands, callback), 200);
+                setTimeout(() => typeCommands(commands, callback), 50); // Comandos rápidos
             } else {
                 index = 0;
                 callback();
             }
         }
 
-        function promptUser() {
-            cmd.innerHTML += `\n${promptMessage}\n`;
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.style.color = 'white';
-            input.style.background = 'black';
-            input.style.border = 'none';
-            input.style.fontFamily = 'Courier New';
-            input.style.fontSize = '16px';
-            input.style.width = '100%';
-            input.style.outline = 'none';
-            cmd.appendChild(input);
-            input.focus();
-
-            input.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter') {
-                    const value = input.value.trim().toLowerCase();
-                    input.remove();
-                    if (value === 'y') {
-                        cmd.innerHTML += '\nA localização secreta é: <span class="highlight"><a href="https://goo.gl/maps/EXEMPLO" target="_blank">https://goo.gl/maps/EXEMPLO</a></span>\n';
-                    } else if (value === 'n') {
-                        cmd.innerHTML += '\nReiniciando processo...\n';
-                        index = 0;
-                        setTimeout(() => typeCommands(fakeCommands, () => typeCommands(finalMessage, promptUser)), 1000);
-                    }
-                }
-            });
+        function showButtons() {
+            buttons.style.display = 'flex';
         }
 
-        typeCommands(fakeCommands, () => typeCommands(finalMessage, promptUser));
+        function hideButtons() {
+            buttons.style.display = 'none';
+        }
+
+        yesButton.addEventListener('click', () => {
+            hideButtons();
+            cmd.innerHTML += '\nA localização secreta é: <span class="highlight"><a href="https://goo.gl/maps/EXEMPLO" target="_blank">https://goo.gl/maps/EXEMPLO</a></span>\n';
+        });
+
+        noButton.addEventListener('click', () => {
+            hideButtons();
+            cmd.innerHTML += '\nReiniciando processo...\n';
+            setTimeout(() => typeCommands(fakeCommands, () => typeCommands(finalMessage, showButtons)), 1000);
+        });
+
+        typeCommands(fakeCommands, () => typeCommands(finalMessage, showButtons));
     </script>
 </body>
 </html>
