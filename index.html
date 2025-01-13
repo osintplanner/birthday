@@ -3,153 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagem Hacker Futurista</title>
+    <title>Simulação de Rubber Ducky</title>
     <style>
         body {
-            background: radial-gradient(circle, #000 60%, #004d40);
-            color: #00ffcc;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 14px;
+            background: black;
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
             margin: 0;
-            padding: 10px;
-            overflow: hidden;
+            padding: 0;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             height: 100vh;
-            padding-top: 20px;
-            box-sizing: border-box;
+            overflow: hidden;
         }
-        #terminal {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #00ffcc;
-            padding: 15px;
-            box-shadow: 0 0 20px #00ffcc;
-            width: 95%;
-            max-width: 700px;
-            height: 50%;
+        #cmd {
+            width: 80%;
+            height: 60%;
+            background: black;
+            color: green;
+            border: 2px solid green;
+            padding: 20px;
             overflow-y: auto;
-            color: #00ffcc;
-            font-size: 12px;
-            line-height: 1.4;
-            margin-bottom: 10px;
-            position: relative;
-        }
-        #progress-container {
-            width: 90%;
-            max-width: 700px;
-            height: 20px;
-            background: #333;
-            border: 2px solid #00ffcc;
-            margin-top: 10px;
-            position: relative;
-        }
-        #progress-bar {
-            width: 0%;
-            height: 100%;
-            background: #00ffcc;
-            transition: width 0.5s ease;
-        }
-        #progress-text {
-            font-size: 12px;
-            text-align: center;
-            margin-top: 5px;
-            color: #00ffcc;
-        }
-        #location {
-            display: none;
-            font-size: 16px;
-            color: #ffeb3b;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        .blinking-cursor {
-            font-weight: bold;
-            color: #00ffcc;
-            animation: blink 1s step-end infinite;
-        }
-        @keyframes blink {
-            from, to {
-                color: transparent;
-            }
-            50% {
-                color: #00ffcc;
-            }
-        }
-        .neon-border {
-            animation: neon 1.5s infinite;
-        }
-        @keyframes neon {
-            0%, 100% {
-                box-shadow: 0 0 5px #00ffcc, 0 0 20px #00ffcc;
-            }
-            50% {
-                box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
-            }
+            box-shadow: 0 0 10px green;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="terminal" class="neon-border"></div>
-    <div id="progress-container" class="neon-border">
-        <div id="progress-bar"></div>
-    </div>
-    <div id="progress-text">0%</div>
-    <div id="location" class="neon-border">
-        <strong>Hack bem-sucedido!</strong><br>
-        A localização é: <a href="https://maps.app.goo.gl/JBZ4yx4NUrhwRZ6G9" target="_blank">Clique aqui para ver no mapa</a>
-    </div>
+    <div id="cmd"></div>
 
     <script>
-        const terminal = document.getElementById('terminal');
-        const locationDiv = document.getElementById('location');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
+        const cmd = document.getElementById('cmd');
 
-        const messages = [
-            'Iniciando payload...\n',
-            'Estabelecendo tunnel...\n',
-            'Credenciais encontradas!\n',
-            'Carregando malware...\n',
-            'Cleaning all files!\n',
-            'Reboot device...\n'
+        const fakeCommands = [
+            'C:\\Users\\Public> initializing...
+',
+            'C:\\Users\\Public> downloading payload...
+',
+            'C:\\Users\\Public> payload executed...
+',
+            'C:\\System32> accessing secure files...
+',
+            'C:\\System32> uploading sensitive data...
+',
+            'C:\\Users\\Public> encryption complete...
+'
         ];
 
-        let index = 0;
-        let progress = 0;
+        const finalMessage = [
+            'Iniciando sistema...\n',
+            'Estabelecendo conexão segura...\n',
+            'Credenciais verificadas...\n',
+            'Descriptografia 100% concluída!\n',
+            'Preparando coordenadas secretas...\n'
+        ];
 
-        function typeMessage() {
-            if (index < messages.length) {
-                terminal.innerHTML += messages[index];
-                terminal.scrollTop = terminal.scrollHeight; // Scroll automático
-                progress += 100 / messages.length;
-                progressBar.style.width = `${progress}%`;
-                progressText.textContent = `${Math.round(progress)}%`;
+        const promptMessage = 'Deseja saber a localização? (y/n)';
+
+        let index = 0;
+
+        function typeCommands(commands, callback) {
+            if (index < commands.length) {
+                cmd.innerHTML += commands[index];
+                cmd.scrollTop = cmd.scrollHeight;
                 index++;
-                setTimeout(typeMessage, 1200);
+                setTimeout(() => typeCommands(commands, callback), 1000);
             } else {
-                setTimeout(() => {
-                    locationDiv.style.display = 'block';
-                }, 1500);
+                index = 0;
+                callback();
             }
         }
 
-        typeMessage();
+        function promptUser() {
+            cmd.innerHTML += `\n${promptMessage}\n`;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.style.color = 'green';
+            input.style.background = 'black';
+            input.style.border = 'none';
+            input.style.fontFamily = 'Courier New';
+            input.style.fontSize = '16px';
+            input.style.width = '100%';
+            cmd.appendChild(input);
+            input.focus();
 
-        // Adicionando som de modem após interação
-        const audio = new Audio('https://www.soundjay.com/communication/sounds/dial-up-modem-01.mp3');
-        document.body.addEventListener('click', () => {
-            audio.play();
-        }, { once: true });
+            input.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    const value = input.value.trim().toLowerCase();
+                    input.remove();
+                    if (value === 'y') {
+                        cmd.innerHTML += '\nA localização secreta é: https://goo.gl/maps/EXEMPLO\n';
+                    } else if (value === 'n') {
+                        cmd.innerHTML += '\nReiniciando processo...\n';
+                        index = 0;
+                        setTimeout(() => typeCommands(fakeCommands, () => typeCommands(finalMessage, promptUser)), 1000);
+                    }
+                }
+            });
+        }
+
+        typeCommands(fakeCommands, () => typeCommands(finalMessage, promptUser));
     </script>
 </body>
 </html>
