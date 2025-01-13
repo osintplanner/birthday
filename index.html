@@ -7,7 +7,7 @@
     <style>
         body {
             background: black;
-            color: green;
+            color: white;
             font-family: 'Courier New', Courier, monospace;
             font-size: 16px;
             margin: 0;
@@ -22,11 +22,11 @@
             width: 80%;
             height: 60%;
             background: black;
-            color: green;
-            border: 2px solid green;
+            color: white;
+            border: 2px solid white;
             padding: 20px;
             overflow-y: auto;
-            box-shadow: 0 0 10px green;
+            box-shadow: 0 0 10px white;
         }
     </style>
 </head>
@@ -37,18 +37,12 @@
         const cmd = document.getElementById('cmd');
 
         const fakeCommands = [
-            'C:\\Users\\Public> initializing...
-',
-            'C:\\Users\\Public> downloading payload...
-',
-            'C:\\Users\\Public> payload executed...
-',
-            'C:\\System32> accessing secure files...
-',
-            'C:\\System32> uploading sensitive data...
-',
-            'C:\\Users\\Public> encryption complete...
-'
+            'C:\\Users\\Public> initializing...\n',
+            'C:\\Users\\Public> downloading payload...\n',
+            'C:\\Users\\Public> payload executed...\n',
+            'C:\\System32> accessing secure files...\n',
+            'C:\\System32> uploading sensitive data...\n',
+            'C:\\Users\\Public> encryption complete...\n'
         ];
 
         const finalMessage = [
@@ -68,7 +62,7 @@
                 cmd.innerHTML += commands[index];
                 cmd.scrollTop = cmd.scrollHeight;
                 index++;
-                setTimeout(() => typeCommands(commands, callback), 1000);
+                setTimeout(() => typeCommands(commands, callback), 800);
             } else {
                 index = 0;
                 callback();
@@ -79,7 +73,7 @@
             cmd.innerHTML += `\n${promptMessage}\n`;
             const input = document.createElement('input');
             input.type = 'text';
-            input.style.color = 'green';
+            input.style.color = 'white';
             input.style.background = 'black';
             input.style.border = 'none';
             input.style.fontFamily = 'Courier New';
