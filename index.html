@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem Hacker Divertida</title>
+    <style>
+        body {
+            background-color: black;
+            color: green;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 16px;
+            margin: 0;
+            padding: 20px;
+        }
+        #terminal {
+            white-space: pre-wrap;
+            overflow-y: auto;
+            height: 90vh;
+            border: 2px solid green;
+            padding: 20px;
+        }
+        #location {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+    <div id="location">
+        <strong>Hack bem-sucedido!</strong><br>
+        A localização secreta é: <a href="https://goo.gl/maps/EXEMPLO" target="_blank">Clique aqui para ver no mapa</a>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const locationDiv = document.getElementById('location');
+
+        const messages = [
+            'Conectando ao servidor...\n',
+            'Verificando credenciais...\n',
+            'Autenticação bem-sucedida!\n',
+            'Iniciando descriptografia...\n',
+            'Descriptografia concluída.\n',
+            'Desbloqueando localização secreta...\n'
+        ];
+
+        let index = 0;
+
+        function typeMessage() {
+            if (index < messages.length) {
+                terminal.innerHTML += messages[index];
+                index++;
+                setTimeout(typeMessage, 1500); // Tempo entre cada mensagem
+            } else {
+                setTimeout(() => {
+                    locationDiv.style.display = 'block';
+                }, 1000); // Mostra a localização após a última mensagem
+            }
+        }
+
+        typeMessage();
+    </script>
+</body>
+</html>
