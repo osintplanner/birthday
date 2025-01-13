@@ -33,6 +33,28 @@
             font-size: 12px;
             line-height: 1.4;
             margin-bottom: 10px;
+            position: relative;
+        }
+        #progress-container {
+            width: 90%;
+            max-width: 700px;
+            height: 20px;
+            background: #333;
+            border: 2px solid #00ffcc;
+            margin-top: 10px;
+            position: relative;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #00ffcc;
+            transition: width 0.5s ease;
+        }
+        #progress-text {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+            color: #00ffcc;
         }
         #location {
             display: none;
@@ -78,6 +100,10 @@
 </head>
 <body>
     <div id="terminal" class="neon-border"></div>
+    <div id="progress-container" class="neon-border">
+        <div id="progress-bar"></div>
+    </div>
+    <div id="progress-text">0%</div>
     <div id="location" class="neon-border">
         <strong>Hack bem-sucedido!</strong><br>
         A localização secreta é: <a href="https://goo.gl/maps/EXEMPLO" target="_blank">Clique aqui para ver no mapa</a>
@@ -86,6 +112,8 @@
     <script>
         const terminal = document.getElementById('terminal');
         const locationDiv = document.getElementById('location');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
 
         const messages = [
             'Iniciando sistema...\n',
@@ -97,11 +125,15 @@
         ];
 
         let index = 0;
+        let progress = 0;
 
         function typeMessage() {
             if (index < messages.length) {
                 terminal.innerHTML += messages[index];
                 terminal.scrollTop = terminal.scrollHeight; // Scroll automático
+                progress += 100 / messages.length;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `${Math.round(progress)}%`;
                 index++;
                 setTimeout(typeMessage, 1200);
             } else {
@@ -112,6 +144,10 @@
         }
 
         typeMessage();
+
+        // Adicionando som de modem
+        const audio = new Audio('https://www.soundjay.com/button/beep-07.wav');
+        audio.play();
     </script>
 </body>
 </html>
