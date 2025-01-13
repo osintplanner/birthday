@@ -86,30 +86,22 @@
         const locationDiv = document.getElementById('location');
 
         const messages = [
-            'Iniciando sistema...
-',
-            'Estabelecendo conexão segura...
-',
-            'Credenciais verificadas!
-',
-            'Carregando arquivos criptografados...
-',
-            'Descriptografia 100% concluída!
-',
-            'Preparando coordenadas secretas...
-'
+            'Iniciando sistema...\n',
+            'Estabelecendo conexão segura...\n',
+            'Credenciais verificadas!\n',
+            'Carregando arquivos criptografados...\n',
+            'Descriptografia 100% concluída!\n',
+            'Preparando coordenadas secretas...\n'
         ];
 
         let index = 0;
 
         function typeMessage() {
             if (index < messages.length) {
-                terminal.innerHTML += messages[index] + '<span class="blinking-cursor">|</span>';
+                terminal.innerHTML += messages[index];
+                terminal.scrollTop = terminal.scrollHeight; // Scroll automático
                 index++;
-                setTimeout(() => {
-                    terminal.innerHTML = terminal.innerHTML.replace('<span class="blinking-cursor">|</span>', '');
-                    typeMessage();
-                }, 1200);
+                setTimeout(typeMessage, 1200);
             } else {
                 setTimeout(() => {
                     locationDiv.style.display = 'block';
@@ -121,4 +113,3 @@
     </script>
 </body>
 </html>
-
