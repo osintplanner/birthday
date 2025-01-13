@@ -3,34 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagem Hacker Divertida</title>
+    <title>Mensagem Hacker Futurista</title>
     <style>
         body {
-            background-color: black;
-            color: green;
-            font-family: 'Courier New', Courier, monospace;
+            background: radial-gradient(circle, #000 60%, #004d40);
+            color: #00ffcc;
+            font-family: 'Orbitron', sans-serif;
             font-size: 16px;
             margin: 0;
             padding: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         #terminal {
-            white-space: pre-wrap;
-            overflow-y: auto;
-            height: 90vh;
-            border: 2px solid green;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ffcc;
             padding: 20px;
+            box-shadow: 0 0 20px #00ffcc;
+            width: 80%;
+            max-width: 800px;
+            height: 60%;
+            overflow-y: auto;
+            color: #00ffcc;
+            font-size: 14px;
+            line-height: 1.5;
         }
         #location {
             display: none;
             margin-top: 20px;
-            font-size: 20px;
-            color: yellow;
+            font-size: 18px;
+            color: #ffeb3b;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .blinking-cursor {
+            font-weight: bold;
+            color: #00ffcc;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to {
+                color: transparent;
+            }
+            50% {
+                color: #00ffcc;
+            }
+        }
+        .neon-border {
+            animation: neon 1.5s infinite;
+        }
+        @keyframes neon {
+            0%, 100% {
+                box-shadow: 0 0 5px #00ffcc, 0 0 20px #00ffcc;
+            }
+            50% {
+                box-shadow: 0 0 20px #00ffcc, 0 0 50px #00ffcc;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="terminal"></div>
-    <div id="location">
+    <div id="terminal" class="neon-border"></div>
+    <div id="location" class="neon-border">
         <strong>Hack bem-sucedido!</strong><br>
         A localização secreta é: <a href="https://goo.gl/maps/EXEMPLO" target="_blank">Clique aqui para ver no mapa</a>
     </div>
@@ -40,25 +86,34 @@
         const locationDiv = document.getElementById('location');
 
         const messages = [
-            'Conectando ao servidor...\n',
-            'Verificando credenciais...\n',
-            'Autenticação bem-sucedida!\n',
-            'Iniciando descriptografia...\n',
-            'Descriptografia concluída.\n',
-            'Desbloqueando localização secreta...\n'
+            'Iniciando sistema...
+',
+            'Estabelecendo conexão segura...
+',
+            'Credenciais verificadas!
+',
+            'Carregando arquivos criptografados...
+',
+            'Descriptografia 100% concluída!
+',
+            'Preparando coordenadas secretas...
+'
         ];
 
         let index = 0;
 
         function typeMessage() {
             if (index < messages.length) {
-                terminal.innerHTML += messages[index];
+                terminal.innerHTML += messages[index] + '<span class="blinking-cursor">|</span>';
                 index++;
-                setTimeout(typeMessage, 1500); // Tempo entre cada mensagem
+                setTimeout(() => {
+                    terminal.innerHTML = terminal.innerHTML.replace('<span class="blinking-cursor">|</span>', '');
+                    typeMessage();
+                }, 1200);
             } else {
                 setTimeout(() => {
                     locationDiv.style.display = 'block';
-                }, 1000); // Mostra a localização após a última mensagem
+                }, 1500);
             }
         }
 
@@ -66,3 +121,4 @@
     </script>
 </body>
 </html>
+
