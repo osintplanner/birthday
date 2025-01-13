@@ -30,6 +30,10 @@
             color: yellow;
             font-weight: bold;
         }
+        .highlight a {
+            color: yellow;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +94,7 @@
                     const value = input.value.trim().toLowerCase();
                     input.remove();
                     if (value === 'y') {
-                        cmd.innerHTML += '\nA localização secreta é: <span class="highlight">https://goo.gl/maps/EXEMPLO</span>\n';
+                        cmd.innerHTML += '\nA localização secreta é: <span class="highlight"><a href="https://goo.gl/maps/EXEMPLO" target="_blank">https://goo.gl/maps/EXEMPLO</a></span>\n';
                     } else if (value === 'n') {
                         cmd.innerHTML += '\nReiniciando processo...\n';
                         index = 0;
