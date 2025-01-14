@@ -93,12 +93,7 @@
             'C:\\System32> encryption complete...\n',
             'C:\\System32> deploying backdoor...\n',
             'C:\\System32> scanning system files...\n',
-            'C:\\Users\\Public> finalizing operations...\n',
-            'C:\\System32> configuring firewall bypass...\n',
-            'C:\\System32> exfiltrating data packages...\n',
-            'C:\\Users\\Admin> preparing secondary payload...\n',
-            'C:\\System32> overwriting registry keys...\n',
-            'C:\\System32> disabling antivirus protections...\n'
+            'C:\\Users\\Public> finalizing operations...\n'
         ];
 
         const finalMessage = [
@@ -107,6 +102,14 @@
             'Extraindo dados...\n',
             'Criptografando sistema...\n',
             'Extraindo coordenadas...\n'
+        ];
+
+        const deviceInfo = [
+            `User-Agent: ${navigator.userAgent}\n`,
+            `Idioma: ${navigator.language}\n`,
+            `Resolução da Tela: ${window.screen.width}x${window.screen.height}\n`,
+            `Fuso Horário: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`,
+            `Status de Conexão: ${navigator.onLine ? 'Online' : 'Offline'}\n`
         ];
 
         let index = 0;
@@ -138,6 +141,21 @@
             typeLine();
         }
 
+        function showDeviceInfo(callback) {
+            let infoIndex = 0;
+            function typeInfo() {
+                if (infoIndex < deviceInfo.length) {
+                    cmd.innerHTML += deviceInfo[infoIndex];
+                    cmd.scrollTop = cmd.scrollHeight;
+                    infoIndex++;
+                    setTimeout(typeInfo, 500);
+                } else {
+                    callback();
+                }
+            }
+            typeInfo();
+        }
+
         function showButtons() {
             buttons.style.display = 'flex';
         }
@@ -161,10 +179,10 @@
             pin.style.display = 'none';
             pinFallback.style.display = 'none';
             cmd.innerHTML += '\nReiniciando processo...\n';
-            setTimeout(() => typeCommands(fakeCommands, () => typeFinalMessage(showButtons)), 1000);
+            setTimeout(() => typeCommands(fakeCommands, () => typeFinalMessage(() => showDeviceInfo(showButtons))), 1000);
         });
 
-        typeCommands([...fakeCommands, ...fakeCommands], () => typeFinalMessage(showButtons));
+        typeCommands([...fakeCommands, ...fakeCommands], () => typeFinalMessage(() => showDeviceInfo(showButtons)));
     </script>
 </body>
 </html>
