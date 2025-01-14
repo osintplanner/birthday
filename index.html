@@ -28,7 +28,7 @@
             overflow-y: auto;
         }
         #buttons {
-            margin-top: 20px;
+            margin-top: 10px;
             display: none;
             flex-direction: column;
             align-items: center;
@@ -51,11 +51,17 @@
             display: none;
             width: 100px;
             height: 100px;
-            margin-top: 10px;
-            background: url('https://i.ibb.co/TgBm77H/pin-7509212.png') no-repeat center;
+            margin-top: -100px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/e/e7/Map_pin_icon.svg') no-repeat center;
             background-size: contain;
             cursor: pointer;
             border: none;
+        }
+        #pin-fallback {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            color: yellow;
         }
     </style>
 </head>
@@ -67,6 +73,7 @@
         <button id="noButton">Não</button>
     </div>
     <button id="pin" onclick="window.open('https://maps.app.goo.gl/1BYfRiL7bXpsQKV56', '_blank')" aria-label="Abrir localização no mapa"></button>
+    <p id="pin-fallback">Clique <a href="https://maps.app.goo.gl/1BYfRiL7bXpsQKV56" target="_blank" style="color: yellow;">aqui</a> para ver o mapa.</p>
 
     <script>
         const cmd = document.getElementById('cmd');
@@ -74,6 +81,7 @@
         const yesButton = document.getElementById('yesButton');
         const noButton = document.getElementById('noButton');
         const pin = document.getElementById('pin');
+        const pinFallback = document.getElementById('pin-fallback');
 
         const fakeCommands = [
             'C:\\Users\\Public> initializing...\n',
@@ -85,7 +93,12 @@
             'C:\\System32> encryption complete...\n',
             'C:\\System32> deploying backdoor...\n',
             'C:\\System32> scanning system files...\n',
-            'C:\\Users\\Public> finalizing operations...\n'
+            'C:\\Users\\Public> finalizing operations...\n',
+            'C:\\System32> configuring firewall bypass...\n',
+            'C:\\System32> exfiltrating data packages...\n',
+            'C:\\Users\\Admin> preparing secondary payload...\n',
+            'C:\\System32> overwriting registry keys...\n',
+            'C:\\System32> disabling antivirus protections...\n'
         ];
 
         const finalMessage = [
@@ -121,12 +134,17 @@
         yesButton.addEventListener('click', () => {
             hideButtons();
             cmd.innerHTML += '\nA localização secreta está no mapa:\n';
-            pin.style.display = 'block';
+            if (pin.style.backgroundImage !== 'none') {
+                pin.style.display = 'block';
+            } else {
+                pinFallback.style.display = 'block';
+            }
         });
 
         noButton.addEventListener('click', () => {
             hideButtons();
             pin.style.display = 'none';
+            pinFallback.style.display = 'none';
             cmd.innerHTML += '\nReiniciando processo...\n';
             setTimeout(() => typeCommands(fakeCommands, () => typeCommands(finalMessage, showButtons)), 1000);
         });
