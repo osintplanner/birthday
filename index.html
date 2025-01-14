@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payload Injection</title>
+    <title>Simulação de Rubber Ducky</title>
     <style>
         body {
             background: black;
@@ -29,8 +29,9 @@
         }
         #buttons {
             margin-top: 20px;
-            display: flex;
-            gap: 10px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
         }
         button {
             background: black;
@@ -40,33 +41,38 @@
             font-size: 16px;
             padding: 10px 20px;
             cursor: pointer;
+            margin: 5px 0;
         }
         button:hover {
             background: white;
             color: black;
         }
-        .highlight {
-            color: yellow;
-            font-weight: bold;
-        }
-        .highlight a {
-            color: yellow;
-            text-decoration: underline;
+        #pin {
+            display: none;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/e/e7/Map_pin_icon.svg') no-repeat center;
+            background-size: contain;
+            width: 50px;
+            height: 50px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div id="cmd"></div>
-    <div id="buttons" style="display: none;">
+    <div id="buttons">
+        <p>Deseja receber as coordenadas?</p>
         <button id="yesButton">Sim</button>
         <button id="noButton">Não</button>
     </div>
+    <button id="pin" onclick="window.open('https://goo.gl/maps/EXEMPLO', '_blank')"></button>
 
     <script>
         const cmd = document.getElementById('cmd');
         const buttons = document.getElementById('buttons');
         const yesButton = document.getElementById('yesButton');
         const noButton = document.getElementById('noButton');
+        const pin = document.getElementById('pin');
 
         const fakeCommands = [
             'C:\\Users\\Public> initializing...\n',
@@ -75,15 +81,18 @@
             'C:\\System32> executing payload...\n',
             'C:\\System32> accessing encrypted files...\n',
             'C:\\System32> extracting sensitive data...\n',
-            'C:\\System32> encryption complete...\n'
+            'C:\\System32> encryption complete...\n',
+            'C:\\System32> deploying backdoor...\n',
+            'C:\\System32> scanning system files...\n',
+            'C:\\Users\\Public> finalizing operations...\n'
         ];
 
         const finalMessage = [
-            'Iniciando sistema...\n',
-            'Estabelecendo conexão segura...\n',
-            'Credenciais verificadas...\n',
-            'Descriptografia 100% concluída!\n',
-            'Preparando coordenadas secretas...\n'
+            'Malware instalado...\n',
+            'Payload carregado...\n',
+            'Extraindo dados...\n',
+            'Criptografando sistema...\n',
+            'Extraindo coordenadas...\n'
         ];
 
         let index = 0;
@@ -110,16 +119,18 @@
 
         yesButton.addEventListener('click', () => {
             hideButtons();
-            cmd.innerHTML += '\nA localização secreta é: <span class="highlight"><a href="https://goo.gl/maps/EXEMPLO" target="_blank">https://goo.gl/maps/EXEMPLO</a></span>\n';
+            cmd.innerHTML += '\nA localização secreta está no mapa:\n';
+            pin.style.display = 'block';
         });
 
         noButton.addEventListener('click', () => {
             hideButtons();
+            pin.style.display = 'none';
             cmd.innerHTML += '\nReiniciando processo...\n';
             setTimeout(() => typeCommands(fakeCommands, () => typeCommands(finalMessage, showButtons)), 1000);
         });
 
-        typeCommands(fakeCommands, () => typeCommands(finalMessage, showButtons));
+        typeCommands([...fakeCommands, ...fakeCommands], () => typeCommands(finalMessage, showButtons));
     </script>
 </body>
 </html>
