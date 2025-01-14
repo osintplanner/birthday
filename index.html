@@ -123,6 +123,21 @@
             }
         }
 
+        function typeFinalMessage(callback) {
+            let finalIndex = 0;
+            function typeLine() {
+                if (finalIndex < finalMessage.length) {
+                    cmd.innerHTML += finalMessage[finalIndex] + '<br>';
+                    cmd.scrollTop = cmd.scrollHeight;
+                    finalIndex++;
+                    setTimeout(typeLine, 500);
+                } else {
+                    callback();
+                }
+            }
+            typeLine();
+        }
+
         function showButtons() {
             buttons.style.display = 'flex';
         }
@@ -146,10 +161,10 @@
             pin.style.display = 'none';
             pinFallback.style.display = 'none';
             cmd.innerHTML += '\nReiniciando processo...\n';
-            setTimeout(() => typeCommands(fakeCommands, () => typeCommands(finalMessage, showButtons)), 1000);
+            setTimeout(() => typeCommands(fakeCommands, () => typeFinalMessage(showButtons)), 1000);
         });
 
-        typeCommands([...fakeCommands, ...fakeCommands], () => typeCommands(finalMessage, showButtons));
+        typeCommands([...fakeCommands, ...fakeCommands], () => typeFinalMessage(showButtons));
     </script>
 </body>
 </html>
