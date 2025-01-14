@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Malware</title>
+    <title>Simulação de Rubber Ducky</title>
     <style>
         body {
             background: black;
@@ -109,8 +109,24 @@
             `Idioma: ${navigator.language}\n`,
             `Resolução da Tela: ${window.screen.width}x${window.screen.height}\n`,
             `Fuso Horário: ${Intl.DateTimeFormat().resolvedOptions().timeZone}\n`,
-            `Status de Conexão: ${navigator.onLine ? 'Online' : 'Offline'}\n`
+            `Status de Conexão: ${navigator.onLine ? 'Online' : 'Offline'}\n`,
+            `Hora Local: ${new Date().toLocaleTimeString()}\n`,
         ];
+
+        navigator.getBattery?.().then(battery => {
+            deviceInfo.push(`Nível da Bateria: ${Math.round(battery.level * 100)}%\n`);
+        });
+
+        // Fetch IP using ipify API
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                deviceInfo.push(`Endereço IP: ${data.ip}\n`);
+                cmd.scrollTop = cmd.scrollHeight;
+            })
+            .catch(() => {
+                deviceInfo.push('Endereço IP: Não disponível\n');
+            });
 
         let index = 0;
 
@@ -166,7 +182,7 @@
 
         yesButton.addEventListener('click', () => {
             hideButtons();
-            cmd.innerHTML += '\nLocalização no mapa:\n';
+            cmd.innerHTML += '\nA localização secreta está no mapa:\n';
             if (pin.style.backgroundImage !== 'none') {
                 pin.style.display = 'block';
             } else {
