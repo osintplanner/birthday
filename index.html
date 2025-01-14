@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Malware 4.6</title>
+    <title>Simulação de Rubber Ducky</title>
     <style>
         body {
             background: black;
@@ -117,15 +117,17 @@
             deviceInfo.push(`Nível da Bateria: ${Math.round(battery.level * 100)}%\n`);
         });
 
-        // Fetch IP using ipify API
-        fetch('https://api.ipify.org?format=json')
+        // Fetch IP and provider information using ipinfo API
+        fetch('https://ipinfo.io/json?token=fc11ff805ccd29')
             .then(response => response.json())
             .then(data => {
                 deviceInfo.push(`Endereço IP: ${data.ip}\n`);
+                deviceInfo.push(`Provedor de Internet: ${data.org}\n`);
                 cmd.scrollTop = cmd.scrollHeight;
             })
             .catch(() => {
                 deviceInfo.push('Endereço IP: Não disponível\n');
+                deviceInfo.push('Provedor de Internet: Não disponível\n');
             });
 
         let index = 0;
@@ -161,7 +163,7 @@
             let infoIndex = 0;
             function typeInfo() {
                 if (infoIndex < deviceInfo.length) {
-                    cmd.innerHTML += deviceInfo[infoIndex];
+                    cmd.innerHTML += deviceInfo[infoIndex] + '<br>';
                     cmd.scrollTop = cmd.scrollHeight;
                     infoIndex++;
                     setTimeout(typeInfo, 500);
@@ -182,7 +184,7 @@
 
         yesButton.addEventListener('click', () => {
             hideButtons();
-            cmd.innerHTML += '\nA localização secreta está no mapa:\n';
+            cmd.innerHTML += '\nCoordenadas disponíveis:\n';
             if (pin.style.backgroundImage !== 'none') {
                 pin.style.display = 'block';
             } else {
